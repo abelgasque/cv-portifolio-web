@@ -45,4 +45,6 @@ firebase login
 
 firebase init
 
+ng build --configuration=production
+
 firebase deploy
