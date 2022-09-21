@@ -5,6 +5,7 @@ import { animate, AUTO_STYLE, state, style, transition, trigger } from '@angular
 
 import { ScrollSpyService } from '../../components/scroll-spy/scroll-spy.service';
 import { Config } from '../../app-config';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-layout',
@@ -31,7 +32,10 @@ import { Config } from '../../app-config';
     ])
   ]
 })
+
 export class LayoutComponent implements OnInit {
+  public version;
+  public listMenu: any[];
   public currentYear;
   public currentSection;
   public themeConfig: any;
@@ -49,6 +53,49 @@ export class LayoutComponent implements OnInit {
   public collapsedCard: string = 'collapsed';
 
   constructor(public scrollSpy: ScrollSpyService, private location: Location) {
+    this.version = environment.version;
+    this.listMenu = [
+      {
+        id: 'home',
+        name: 'Principal',
+        icon: 'icon-home'
+      },
+      {
+        id: 'about',
+        name: 'Sobre',
+        icon: 'icon-user-following'
+      },
+      {
+        id: 'experience',
+        name: 'Experiência',
+        icon: 'icon-briefcase'
+      },
+      {
+        id: 'formation',
+        name: 'Formações',
+        icon: 'icon-graduation'
+      },
+      {
+        id: 'certification',
+        name: 'Certificados',
+        icon: 'icon-graduation'
+      },
+      {
+        id: 'language',
+        name: 'Idiomas',
+        icon: 'icon-graduation'
+      },
+      // {
+      //   id: 'blog',
+      //   name: 'Blog',
+      //   icon: 'icon-note'
+      // },
+      {
+        id: 'contact',
+        name: 'Contato',
+        icon: 'icon-bubbles'
+      },
+    ];
     this.currentYear = new Date().getFullYear();
     this.themeConfig = Config.config;
     this.windowWidth = window.innerWidth;

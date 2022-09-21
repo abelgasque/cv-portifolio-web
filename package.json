@@ -1,6 +1,6 @@
 {
-  "name": "bolby-protfolio-angular",
-  "version": "v1.1.0",
+  "name": "abelgasque-blog-Web",
+  "version": "v1.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",

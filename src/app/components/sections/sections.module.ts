@@ -7,45 +7,49 @@ import { IvyCarouselModule } from 'angular-responsive-carousel';
 
 import { HomeComponent } from './home/home.component';
 import { AboutComponent } from './about/about.component';
-import { ServicesComponent } from './services/services.component';
 import { ExperienceComponent } from './experience/experience.component';
-import { WorksComponent } from './works/works.component';
 import { BlogComponent } from './blog/blog.component';
 import { ContactComponent } from './contact/contact.component';
-import { PricingComponent } from './pricing/pricing.component';
-import { TestimonialsComponent } from './testimonials/testimonials.component';
 
 import { GalleryComponent } from './gallery/gallery.component';
 import { UiModalComponent } from './ui-modal/ui-modal.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NguCarouselModule } from '@ngu/carousel';
+import { FormationComponent } from './formation/formation.component';
+import { CertificationComponent } from './certification/certification.component';
+import { LanguageComponent } from './language/language.component';
 
 @NgModule({
   declarations: [
     HomeComponent,
     AboutComponent,
-    ServicesComponent,
     ExperienceComponent,
-    WorksComponent,
     BlogComponent,
     ContactComponent,
-    PricingComponent,
-    TestimonialsComponent,
     GalleryComponent,
-    UiModalComponent
+    UiModalComponent,
+    FormationComponent,
+    CertificationComponent,
+    LanguageComponent,
   ],
   exports: [
     HomeComponent,
     AboutComponent,
-    ServicesComponent,
     ExperienceComponent,
-    WorksComponent,
     BlogComponent,
     ContactComponent,
-    PricingComponent,
-    TestimonialsComponent,
-    NgbModule
+    NgbModule,
+    FormationComponent,
+    CertificationComponent,
+    LanguageComponent,
   ],
-  imports: [CommonModule, LightboxModule, NgImageSliderModule, IvyCarouselModule, NguCarouselModule, NgbModule]
+  imports: [
+    CommonModule,
+    LightboxModule,
+    NgImageSliderModule,
+    IvyCarouselModule,
+    NguCarouselModule,
+    NgbModule
+  ]
 })
-export class SectionsModule {}
+export class SectionsModule { }
