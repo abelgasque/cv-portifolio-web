@@ -12,8 +12,8 @@ export class CertificationComponent implements OnInit {
   constructor() {
     this.listCertification = [
       {
-        company: 'Cybersecurity Essentials',
-        occupation: 'Cisco Networking Academy',
+        company: 'Cisco Networking Academy',
+        occupation: 'Cybersecurity Essentials',
         dtStart: 'Maio de 2020',
         dtEnd: 'Sem data de expiração',
         description: null,
