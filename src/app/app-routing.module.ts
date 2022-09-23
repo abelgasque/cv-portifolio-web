@@ -1,21 +1,28 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { LayoutComponent } from './theme/layout/layout.component';
+import { CoreComponent } from './core/core.component';
+import { LandingPageComponent } from './modules/landing-page/landing-page.component';
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: '/theme/view',
+    redirectTo: '/landing-page/home',
     pathMatch: 'full'
   },
   {
-    path: 'theme',
-    component: LayoutComponent,
+    path: '',
+    component: CoreComponent,
     children: [
       {
-        path: 'view',
-        loadChildren: () => import('./view/view.module').then((module) => module.ViewModule)
-      }
+        path: 'landing-page',
+        component: LandingPageComponent,
+        children: [
+          {
+            path: 'home',
+            loadChildren: () => import('./modules/landing-page/landing-page.module').then((module) => module.LandingPageModule)
+          }
+        ]
+      },
     ]
   }
 ];
@@ -24,4 +31,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

@@ -6,14 +6,9 @@ import localePt from '@angular/common/locales/pt';
 import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 
-import { ClickOutsideModule } from 'ng-click-outside';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { LayoutComponent } from './theme/layout/layout.component';
-import { LoaderModule } from './components/loader/loader.module';
-import { SharedModule } from './components/shared/shared.module';
-
+import { CoreModule } from './core/core.module';
 
 registerLocaleData(localePt);
 
@@ -30,7 +25,6 @@ const firebaseConfig = {
 @NgModule({
   declarations: [
     AppComponent,
-    LayoutComponent
   ],
   imports: [
     BrowserAnimationsModule,
@@ -39,9 +33,7 @@ const firebaseConfig = {
     provideFirebaseApp(() => initializeApp(firebaseConfig)),
     provideFirestore(() => getFirestore()),
 
-    LoaderModule,
-    ClickOutsideModule,
-    SharedModule
+    CoreModule,
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'pt-BR' },
