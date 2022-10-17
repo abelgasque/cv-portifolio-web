@@ -90,11 +90,11 @@ export class LandingPageComponent implements OnInit {
       //   name: 'Blog',
       //   icon: 'icon-note'
       // },
-      {
-        id: 'contact',
-        name: 'Contato',
-        icon: 'icon-bubbles'
-      },
+      // {
+      //   id: 'contact',
+      //   name: 'Contato',
+      //   icon: 'icon-bubbles'
+      // },
     ];
     this.currentYear = new Date().getFullYear();
     this.themeConfig = Config.config;
