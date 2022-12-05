@@ -6,25 +6,22 @@ import { LandingPageComponent } from './modules/landing-page/landing-page.compon
 const routes: Routes = [
   {
     path: '',
-    redirectTo: '/landing-page/home',
-    pathMatch: 'full'
-  },
-  {
-    path: '',
     component: CoreComponent,
     children: [
       {
-        path: 'landing-page',
+        path: '',
         component: LandingPageComponent,
         children: [
           {
-            path: 'home',
+            path: '',
             loadChildren: () => import('./modules/landing-page/landing-page.module').then((module) => module.LandingPageModule)
           }
         ]
       },
     ]
-  }
+  },
+  { path: '', redirectTo: '', pathMatch: 'full' },
+  { path: '**', redirectTo: '' },
 ];
 
 @NgModule({

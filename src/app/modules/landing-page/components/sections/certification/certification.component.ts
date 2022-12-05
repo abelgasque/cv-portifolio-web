@@ -12,6 +12,27 @@ export class CertificationComponent implements OnInit {
   constructor() {
     this.listCertification = [
       {
+        company: 'Front in Floripa',
+        occupation: 'Front in Floripa 2022',
+        dtStart: 'Novembro de 2022',
+        dtEnd: 'Sem data de expiração',
+        description: null,
+      },
+      {
+        company: 'Rocketseat',
+        occupation: 'Assemble',
+        dtStart: 'Agosto de 2022',
+        dtEnd: 'Sem data de expiração',
+        description: null,
+      },
+      {
+        company: 'Floripa Tech Day',
+        occupation: 'Floripa Tech Day 2022',
+        dtStart: 'Julho de 2022',
+        dtEnd: 'Sem data de expiração',
+        description: null,
+      },
+      {
         company: 'Cisco Networking Academy',
         occupation: 'Cybersecurity Essentials',
         dtStart: 'Maio de 2020',
