@@ -48,3 +48,9 @@ firebase init
 ng build --configuration=production
 
 firebase deploy
+
+## Deploy development in Docker
+
+1- docker build -t abelblog-web .
+
+2- docker run --name abelblog-web -p 8081:80 -d abelblog-web

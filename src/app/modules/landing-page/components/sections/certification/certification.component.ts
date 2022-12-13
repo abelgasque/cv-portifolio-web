@@ -12,6 +12,13 @@ export class CertificationComponent implements OnInit {
   constructor() {
     this.listCertification = [
       {
+        company: 'GDG Floripa',
+        occupation: 'DevFest Sul 2022',
+        dtStart: 'Dezembro de 2022',
+        dtEnd: 'Sem data de expiração',
+        description: null,
+      },
+      {
         company: 'Front in Floripa',
         occupation: 'Front in Floripa 2022',
         dtStart: 'Novembro de 2022',
