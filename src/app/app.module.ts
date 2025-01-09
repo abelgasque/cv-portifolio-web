@@ -6,21 +6,12 @@ import localePt from '@angular/common/locales/pt';
 import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 
+import { environment } from 'src/environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 
 registerLocaleData(localePt);
-
-const firebaseConfig = {
-  apiKey: "AIzaSyCZIWExadW4aAlT5ZBtmB-66rC4b7D7IqU",
-  authDomain: "abelgasque-2f8f7.firebaseapp.com",
-  projectId: "abelgasque-2f8f7",
-  storageBucket: "abelgasque-2f8f7.appspot.com",
-  messagingSenderId: "791714596065",
-  appId: "1:791714596065:web:c24f6db79119425f98a3a0",
-  measurementId: "G-P8JC0VBLVT"
-};
 
 @NgModule({
   declarations: [
@@ -30,7 +21,7 @@ const firebaseConfig = {
     BrowserAnimationsModule,
     BrowserModule,
     AppRoutingModule,
-    provideFirebaseApp(() => initializeApp(firebaseConfig)),
+    provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
     provideFirestore(() => getFirestore()),
 
     CoreModule,
