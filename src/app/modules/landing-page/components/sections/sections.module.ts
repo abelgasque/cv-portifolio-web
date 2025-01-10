@@ -8,10 +8,6 @@ import { IvyCarouselModule } from 'angular-responsive-carousel';
 import { HomeComponent } from './home/home.component';
 import { AboutComponent } from './about/about.component';
 import { ExperienceComponent } from './experience/experience.component';
-import { BlogComponent } from './blog/blog.component';
-import { ContactComponent } from './contact/contact.component';
-
-import { GalleryComponent } from './gallery/gallery.component';
 import { UiModalComponent } from './ui-modal/ui-modal.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NguCarouselModule } from '@ngu/carousel';
@@ -24,9 +20,6 @@ import { LanguageComponent } from './language/language.component';
     HomeComponent,
     AboutComponent,
     ExperienceComponent,
-    BlogComponent,
-    ContactComponent,
-    GalleryComponent,
     UiModalComponent,
     FormationComponent,
     CertificationComponent,
@@ -36,8 +29,6 @@ import { LanguageComponent } from './language/language.component';
     HomeComponent,
     AboutComponent,
     ExperienceComponent,
-    BlogComponent,
-    ContactComponent,
     NgbModule,
     FormationComponent,
     CertificationComponent,
