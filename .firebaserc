@@ -1,5 +1,5 @@
 {
   "projects": {
-    "default": "cv-abelgasque-e8ab0"
+    "default": "YOUR_FIREBASE_PROJECT_ID"
   }
 }

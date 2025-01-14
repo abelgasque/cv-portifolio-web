@@ -24,7 +24,17 @@ jobs:
     - name: Install dependencies
       run: npm install --force
 
-    # Substituir variáveis de ambiente no arquivo environment.prod.ts
+    # Gerar dinamicamente o arquivo .firebaserc
+    - name: Generate .firebaserc file
+      run: |
+        echo "{
+          \"projects\": {
+            \"default\": \"${{ secrets.FIREBASE_PROJECT_ID }}\"
+          }
+        }" > .firebaserc
+      shell: bash
+
+    # Substituir variáveis de ambiente no environment.prod.ts
     - name: Replace environment variables in environment.prod.ts
       run: |
         sed -i 's/{{FIREBASE_API_KEY}}/${{ secrets.FIREBASE_API_KEY }}/g' src/environments/environment.prod.ts
@@ -36,7 +46,6 @@ jobs:
         sed -i 's/{{FIREBASE_MESSAGING_SENDER_ID}}/${{ secrets.FIREBASE_MESSAGING_SENDER_ID }}/g' src/environments/environment.prod.ts
         sed -i 's/{{FIREBASE_APP_ID}}/${{ secrets.FIREBASE_APP_ID }}/g' src/environments/environment.prod.ts
         sed -i 's/{{FIREBASE_MEASUREMENT_ID}}/${{ secrets.FIREBASE_MEASUREMENT_ID }}/g' src/environments/environment.prod.ts
-        sed -i 's/{{FIREBASE_PROJECT_ID}}/${{ secrets.FIREBASE_PROJECT_ID }}/g' .firebaserc
 
     # Build do projeto Angular
     - name: Build Angular app
