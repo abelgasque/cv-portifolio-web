@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 /* spinner */
 import { Router, NavigationStart, NavigationEnd, NavigationCancel, NavigationError } from '@angular/router';
 import { DOCUMENT } from '@angular/common';
-import { Config } from '../../../../app-config';
+import { Config } from 'src/app/app-config';
 
 @Component({
   selector: 'app-loader',

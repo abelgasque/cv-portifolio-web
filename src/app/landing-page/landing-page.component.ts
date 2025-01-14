@@ -3,7 +3,7 @@ import { Location } from '@angular/common';
 import { NgbDropdownConfig } from '@ng-bootstrap/ng-bootstrap';
 import { animate, AUTO_STYLE, state, style, transition, trigger } from '@angular/animations';
 
-import { ScrollSpyService } from 'src/app/modules/landing-page/components/scroll-spy/scroll-spy.service';
+import { ScrollSpyService } from 'src/app/shared/components/scroll-spy/scroll-spy.service';
 import { Config } from 'src/app/app-config';
 import { environment } from 'src/environments/environment';
 
@@ -220,4 +220,8 @@ export class LandingPageComponent implements OnInit {
     this.collapsedCard = this.collapsedCard === 'collapsed' ? 'expanded' : 'collapsed';
   }
 
+  onSectionChange(sectionId: string) {
+    this.currentSection = sectionId;
+    this.scrollSpy.nextCount(sectionId);
+  }
 }

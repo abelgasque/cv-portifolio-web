@@ -1,25 +1,24 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 import { ClickOutsideModule } from 'ng-click-outside';
 
-import { SharedModule } from './components/shared/shared.module';
-import { LoaderModule } from './components/loader/loader.module';
-import { LandingPageRoutingModule } from './landing-page-routing.module';
+import { SharedModule } from '../shared/shared.module';
+import { LoaderModule } from '../shared/components/loader/loader.module';
 import { LandingPageComponent } from './landing-page.component';
-import { LandingPageHomeComponent } from './landing-page-home/landing-page-home.component';
 
 
 @NgModule({
   declarations: [
     LandingPageComponent,
-    LandingPageHomeComponent
   ],
   imports: [
     CommonModule,
+    RouterModule,
+
     ClickOutsideModule,
     LoaderModule,
-    LandingPageRoutingModule,
     SharedModule
   ]
 })

@@ -73,9 +73,31 @@
 
 <!-- main layout -->
 <main class="{{ openClass }}" [ngClass]="contentClass">
-  <router-outlet>
-    <app-loader></app-loader>
-  </router-outlet>
+
+  <div id="parentDiv" class="main-content" scrollSpy [spiedTags]="['SECTION']"
+    (sectionChange)="onSectionChange($event)">
+    <section id="home" class="home d-flex align-items-center" [ngClass]="{ light: themeConfig.themeType === 'light' }">
+      <app-home class="w-100" [themeType]="themeConfig.themeType"></app-home>
+    </section>
+    <section id="about">
+      <app-about></app-about>
+    </section>
+    <section id="experience">
+      <app-experience></app-experience>
+    </section>
+    <section id="formation">
+      <app-formation></app-formation>
+    </section>
+    <section id="certification">
+      <app-certification></app-certification>
+    </section>
+    <section id="language">
+      <app-language></app-language>
+    </section>
+    <div class="spacer-96"></div>
+  </div>
+  <app-loader></app-loader>
+
   <!-- Go to top button -->
   <a href="javascript:" id="return-to-top" (click)="scrollTo('home')"><i class="fas fa-arrow-up"></i></a>
 </main>

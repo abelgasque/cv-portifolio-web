@@ -9,7 +9,7 @@ import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { environment } from 'src/environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { CoreModule } from './core/core.module';
+import { LandingPageModule } from './landing-page/landing-page.module';
 
 registerLocaleData(localePt);
 
@@ -24,7 +24,7 @@ registerLocaleData(localePt);
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
     provideFirestore(() => getFirestore()),
 
-    CoreModule,
+    LandingPageModule
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'pt-BR' },
