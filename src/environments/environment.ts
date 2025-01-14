@@ -1,6 +1,8 @@
 export const environment = {
   production: false,
   version: "v1.0.4",
+  avatarImg: "assets/images/avatar.jpg",
+  cvImg: "assets/images/cv.pdf",
   firebaseConfig: {
     apiKey: "Your Firebase API Key",
     authDomain: "Your Firebase Auth Domain",
