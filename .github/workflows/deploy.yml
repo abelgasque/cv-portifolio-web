@@ -3,7 +3,7 @@ name: Deploy cv-abelgasque
 on:
   push:
     tags:
-      - 'v*' # Dispara apenas para tags que começam com "v"
+      - 'v*'
 
 jobs:
   deploy:
@@ -23,16 +23,6 @@ jobs:
     # Instalar dependências
     - name: Install dependencies
       run: npm install --force
-
-    # Gerar dinamicamente o arquivo .firebaserc
-    - name: Generate .firebaserc file
-      run: |
-        echo "{
-          \"projects\": {
-            \"default\": \"${{ secrets.FIREBASE_PROJECT_ID }}\"
-          }
-        }" > .firebaserc
-      shell: bash
 
     # Substituir variáveis de ambiente no environment.prod.ts
     - name: Replace environment variables in environment.prod.ts
@@ -57,4 +47,4 @@ jobs:
         FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
       run: |
         npm install -g firebase-tools
-        firebase deploy --only hosting
+        firebase deploy --only hosting --project ${{ secrets.FIREBASE_PROJECT_ID }}
