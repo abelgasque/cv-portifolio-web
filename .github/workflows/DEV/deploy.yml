@@ -1,9 +1,9 @@
-name: Deploy cv-abelgasque
+name: Deploy to Development
 
 on:
   push:
-    tags:
-      - 'v*'
+    branches:
+      - develop 
 
 jobs:
   deploy:
