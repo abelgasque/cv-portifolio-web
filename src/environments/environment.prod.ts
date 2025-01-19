@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  version: "v1.0.12",
+  version: "v1.0.13",
   avatarImg: "{{FIREBASE_AVATAR_IMG}}",
   cvImg: "{{FIREBASE_CV_IMG}}",
   firebaseConfig: {

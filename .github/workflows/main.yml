@@ -7,17 +7,35 @@ on:
 
 jobs:
   firebase-deploy:
-
     runs-on: ubuntu-latest
     environment: production
 
     steps:
-    - uses: actions/checkout@master
-    - uses: actions/setup-node@master
+    # Checkout do código
+    - name: Checkout code
+      uses: actions/checkout@master
+
+    # Configuração do Node.js
+    - name: Set up Node.js
+      uses: actions/setup-node@master
       with:
         node-version: '18.x'
-    - run: npm install --force
-    - run: |
+
+    # Instalação de dependências
+    - name: Install dependencies
+      run: npm install --force
+
+    # Notificação de início da build
+    - name: Notify Discord (Build Started)
+      run: |
+        curl -H "Content-Type: application/json" \
+          -X POST \
+          -d '{"username": "Build Bot", "content": "🚀 **Deploy iniciado!**\nAmbiente: `Production`\nTag: `${{ github.ref_name }}`"}' \
+          ${{ secrets.DISCORD_WEBHOOK_URL }}
+
+    # Substituir variáveis de ambiente no environment.prod.ts
+    - name: Replace environment variables
+      run: |
         sed -i 's/{{FIREBASE_API_KEY}}/${{ secrets.FIREBASE_API_KEY }}/g' src/environments/environment.prod.ts
         sed -i 's/{{FIREBASE_AUTH_DOMAIN}}/${{ secrets.FIREBASE_AUTH_DOMAIN }}/g' src/environments/environment.prod.ts
         sed -i 's/{{FIREBASE_AVATAR_IMG}}/${{ secrets.FIREBASE_AVATAR_IMG }}/g' src/environments/environment.prod.ts
@@ -27,9 +45,32 @@ jobs:
         sed -i 's/{{FIREBASE_MESSAGING_SENDER_ID}}/${{ secrets.FIREBASE_MESSAGING_SENDER_ID }}/g' src/environments/environment.prod.ts
         sed -i 's/{{FIREBASE_APP_ID}}/${{ secrets.FIREBASE_APP_ID }}/g' src/environments/environment.prod.ts
         sed -i 's/{{FIREBASE_MEASUREMENT_ID}}/${{ secrets.FIREBASE_MEASUREMENT_ID }}/g' src/environments/environment.prod.ts
-    - run: npm run build -- --configuration=production
-    - uses: w9jds/firebase-action@master
+
+    # Build do projeto
+    - name: Build Angular App
+      run: npm run build -- --configuration=production
+
+    # Deploy para Firebase Hosting
+    - name: Deploy to Firebase Hosting
+      uses: w9jds/firebase-action@master
       with:
         args: deploy --only hosting
       env:
         FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+
+    # Notificação de sucesso ou falha
+    - name: Notify Discord (Success)
+      if: success()
+      run: |
+        curl -H "Content-Type: application/json" \
+          -X POST \
+          -d '{"username": "Build Bot", "content": "✅ **Deploy concluído com sucesso!**\nAmbiente: `Production`\nTag: `${{ github.ref_name }}`"}' \
+          ${{ secrets.DISCORD_WEBHOOK_URL }}
+
+    - name: Notify Discord (Failure)
+      if: failure()
+      run: |
+        curl -H "Content-Type: application/json" \
+          -X POST \
+          -d '{"username": "Build Bot", "content": "❌ **Deploy falhou!**\nAmbiente: `Production`\nTag: `${{ github.ref_name }}`"}' \
+          ${{ secrets.DISCORD_WEBHOOK_URL }}
