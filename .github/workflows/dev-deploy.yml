@@ -45,9 +45,8 @@ jobs:
     # Deploy para o Firebase Hosting
     - name: Deploy to Firebase Hosting
       env:
-        GOOGLE_APPLICATION_CREDENTIALS: $HOME/service-account.json
+        FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
       run: |
-        echo "${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_JSON }}" > $HOME/service-account.json
         npm install -g firebase-tools
         firebase use --alias development
         firebase deploy --only hosting
