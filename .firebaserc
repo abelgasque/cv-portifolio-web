@@ -1,7 +1,5 @@
 {
   "projects": {
-    "default": "cv-abelgasque-e8ab0",
-    "production": "cv-abelgasque-e8ab0",
-    "development": "cv-abelgasque-dev"
+    "default": "cv-abelgasque-e8ab0"
   }
 }
