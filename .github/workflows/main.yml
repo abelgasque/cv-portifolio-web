@@ -1,14 +1,15 @@
-name: Deploy to Production
+name: Deploy to Firebase
 
 on:
   push:
+    branches:
+      - develop
     tags:
       - 'v*'
-
 jobs:
   firebase-deploy:
     runs-on: ubuntu-latest
-    environment: production
+    environment: ${{ github.ref == 'refs/heads/develop' && 'development' || 'production' }}
 
     steps:
     # Checkout do código
