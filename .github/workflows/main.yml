@@ -61,10 +61,9 @@ jobs:
     # Deploy para Firebase Hosting
     - name: Deploy to Firebase Hosting
       run: |
-        firebase deploy --only hosting --project="${{ vars.FIREBASE_PROJECT_ID }}"
+        firebase deploy --only hosting --project="${{ vars.FIREBASE_PROJECT_ID }}" --token="${{ secrets.FIREBASE_TOKEN }}"
       env:
         GOOGLE_APPLICATION_CREDENTIALS: $HOME/service-account.json
-        FIREBASE_AUTH_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
 
     # Notificação de sucesso ou falha
     - name: Notify Discord (Success)
