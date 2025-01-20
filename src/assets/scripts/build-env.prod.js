@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const packageJson = require('../package.json');
+const packageJson = require('../../../package.json');
 
 packageJson.name = process.env.APP_NAME || packageJson.name;
 packageJson.version = process.env.APP_VERSION || packageJson.version;
