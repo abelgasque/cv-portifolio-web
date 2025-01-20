@@ -1,10 +1,10 @@
 {
   "name": "cv-abelgasque",
-  "version": "debug",
+  "version": "1.0.16",
   "scripts": {
     "ng": "ng",
-    "start": "node -e \"require('dotenv').config(); require('./src/prebuild.js');\" && ng serve",
-    "prebuild": "node src/prebuild.js",
+    "start": "node -e \"require('dotenv').config(); require('./src/envbuild.js');\" && ng serve",
+    "env": "node src/envbuild.js",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
