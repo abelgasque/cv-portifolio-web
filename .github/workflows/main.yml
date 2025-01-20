@@ -28,18 +28,15 @@ jobs:
     - name: Install nodejs and firebase tools
       run: npm install --force && npm install -g firebase-tools
     
-    - name: Prebuild Angular App
-      run: npm run prebuild
+    - name: Build Angular App
+      run: npm run build -- --configuration=production
       env:
         APP_NAME: ${{ github.repository }}
         APP_VERSION: ${{ github.ref_name }} 
         APP_CONFIG: ${{ vars.APP_CONFIG }}
         FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}
         APP_DEBUG: ${{ github.ref_name == 'main' && 'development' || 'production' }}
-    
-    - name: Build Angular App
-      run: npm run build -- --configuration=production
-      
+   
     - name: Deploy to Firebase Hosting
       run: |
         firebase deploy --only hosting --project="${{ secrets.FIREBASE_PROJECT_ID }}" --token="${{ secrets.FIREBASE_TOKEN }}"
