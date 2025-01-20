@@ -28,7 +28,7 @@ fs.access(dir, fs.constants.F_OK, (err) => {
   
   try {
     fs.writeFileSync(path.join(dir, prodFile), formattedContent);
-    console.log(`Arquivo ${prodFile} criado com sucesso!`, JSON.parse(formattedContent));
+    console.log(`Arquivo ${prodFile} criado com sucesso!`, formattedContent);
   } catch (error) {
     console.error("Erro ao escrever o arquivo:", error);
     process.exit(1);
