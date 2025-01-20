@@ -12,21 +12,15 @@ jobs:
     environment: ${{ github.ref == 'refs/heads/develop' && 'development' || 'production' }}
 
     steps:
-    # Checkout do código
-    - name: Checkout code
-      uses: actions/checkout@master
-
-    # Configuração do Node.js
-    - name: Set up Node.js
-      uses: actions/setup-node@master
+    - name: Setup nodejs and create env file
+      uses: actions/checkout@v2
+    - uses: actions/setup-node@v2
       with:
         node-version: '18.x'
+    - run: node server.js
+      env:
+        ENV_APP: '${{ secrets.ENV_APP }}'
 
-    # Instalação de dependências
-    - name: Install dependencies
-      run: npm install --force
-
-    # Notificação de início da build
     - name: Notify Discord (Build Started)
       run: |
         curl -H "Content-Type: application/json" \
@@ -34,36 +28,15 @@ jobs:
           -d '{"username": "Build Bot", "content": "🚀 **Deploy iniciado!**\nAmbiente: ${{ github.ref == 'refs/heads/develop' && 'Development' || 'Production' }}\nTag: `${{ github.ref_name }}`"}' \
           ${{ vars.DISCORD_WEBHOOK_URL }}
 
-    # Substituir variáveis de ambiente no environment.prod.ts
-    - name: Replace environment variables
-      run: |
-        sed -i 's/{{FIREBASE_API_KEY}}/${{ secrets.FIREBASE_API_KEY }}/g' src/environments/environment.prod.ts
-        sed -i 's/{{FIREBASE_AUTH_DOMAIN}}/${{ vars.FIREBASE_AUTH_DOMAIN }}/g' src/environments/environment.prod.ts
-        sed -i 's/{{FIREBASE_AVATAR_IMG}}/${{ vars.FIREBASE_AVATAR_IMG }}/g' src/environments/environment.prod.ts
-        sed -i 's/{{FIREBASE_CV_IMG}}/${{ vars.FIREBASE_CV_IMG }}/g' src/environments/environment.prod.ts
-        sed -i 's/{{FIREBASE_PROJECT_ID}}/${{ vars.FIREBASE_PROJECT_ID }}/g' src/environments/environment.prod.ts
-        sed -i 's/{{FIREBASE_STORAGE_BUCKET}}/${{ vars.FIREBASE_STORAGE_BUCKET }}/g' src/environments/environment.prod.ts
-        sed -i 's/{{FIREBASE_MESSAGING_SENDER_ID}}/${{ vars.FIREBASE_MESSAGING_SENDER_ID }}/g' src/environments/environment.prod.ts
-        sed -i 's/{{FIREBASE_APP_ID}}/${{ vars.FIREBASE_APP_ID }}/g' src/environments/environment.prod.ts
-        sed -i 's/{{FIREBASE_MEASUREMENT_ID}}/${{ vars.FIREBASE_MEASUREMENT_ID }}/g' src/environments/environment.prod.ts
-
-    # Build do projeto
     - name: Build Angular App
-      run: npm run build -- --configuration=production
+      run: npm run build
 
-    - name: Set up Firebase tools
-      run: |
-        echo "${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_JSON }}" > $HOME/service-account.json
-        npm install -g firebase-tools
-      env:
-        GOOGLE_APPLICATION_CREDENTIALS: $HOME/service-account.json
-
-    # Deploy para Firebase Hosting
     - name: Deploy to Firebase Hosting
       run: |
-        firebase deploy --only hosting --project="${{ vars.FIREBASE_PROJECT_ID }}" --token="${{ secrets.FIREBASE_TOKEN }}"
+        npm install -g firebase-tools 
+        && firebase deploy --only hosting --project="${{ vars.FIREBASE_PROJECT_ID }}" --token="${{ secrets.FIREBASE_TOKEN }}"
       env:
-        GOOGLE_APPLICATION_CREDENTIALS: $HOME/service-account.json
+        GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_JSON }}
 
     # Notificação de sucesso ou falha
     - name: Notify Discord (Success)
