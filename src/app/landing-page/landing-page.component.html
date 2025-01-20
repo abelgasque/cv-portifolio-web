@@ -9,7 +9,7 @@
     </div>
     <!-- logo image -->
     <div class="site-logo">
-      <span routerLink="/" class="copyright">Abel Gasque</span>
+      <span routerLink="/" class="copyright">{{ this.name }}</span>
     </div>
   </div>
 </header>
@@ -19,7 +19,7 @@
   <div class="container">
     <nav class="navbar navbar-expand-lg" [ngClass]="horizontalNavClass">
       <a class="navbar-brand" routerLink="/">
-        <span class="copyright">Abel Gasque</span>
+        <span class="copyright">{{ this.name }}</span>
       </a>
       <button (click)="collapsedCardToggle()" aria-controls="navbarNavDropdown" aria-expanded="false"
         aria-label="Toggle navigation" class="navbar-toggler" data-target="#navbarNavDropdown" data-toggle="collapse"
@@ -46,7 +46,7 @@
   <!-- logo image -->
   <div class="site-logo">
     <a routerLink="/">
-      <span class="copyright">Abel Gasque</span>
+      <span class="copyright">{{ this.name }}</span>
     </a>
   </div>
 

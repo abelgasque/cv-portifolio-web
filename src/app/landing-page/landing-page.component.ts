@@ -34,7 +34,8 @@ import { environment } from 'src/environments/environment';
 })
 export class LandingPageComponent implements OnInit {
 
-  public version;
+  public name: string;
+  public version: string;
   public listMenu: any[];
   public currentYear;
   public currentSection;
@@ -53,6 +54,7 @@ export class LandingPageComponent implements OnInit {
   public collapsedCard: string = 'collapsed';
 
   constructor(public scrollSpy: ScrollSpyService, private location: Location) {
+    this.name = environment.name;
     this.version = environment.version;
     this.listMenu = [
       {
