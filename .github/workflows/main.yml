@@ -31,7 +31,7 @@ jobs:
       run: |
         curl -H "Content-Type: application/json" \
           -X POST \
-          -d '{"username": "Build Bot", "content": "🚀 **Deploy iniciado!**\nAmbiente: `Production`\nTag: `${{ github.ref_name }}`"}' \
+          -d '{"username": "Build Bot", "content": "🚀 **Deploy iniciado!**\nAmbiente: ${{ github.ref == 'refs/heads/develop' && 'Development' || 'Production' }}\nTag: `${{ github.ref_name }}`"}' \
           ${{ vars.DISCORD_WEBHOOK_URL }}
 
     # Substituir variáveis de ambiente no environment.prod.ts
@@ -71,7 +71,7 @@ jobs:
       run: |
         curl -H "Content-Type: application/json" \
           -X POST \
-          -d '{"username": "Build Bot", "content": "✅ **Deploy concluído com sucesso!**\nAmbiente: `Production`\nTag: `${{ github.ref_name }}`"}' \
+          -d '{"username": "Build Bot", "content": "✅ **Deploy concluído com sucesso!**\nAmbiente: ${{ github.ref == 'refs/heads/develop' && 'Development' || 'Production' }}\nTag: `${{ github.ref_name }}`"}' \
           ${{ vars.DISCORD_WEBHOOK_URL }}
 
     - name: Notify Discord (Failure)
@@ -79,5 +79,5 @@ jobs:
       run: |
         curl -H "Content-Type: application/json" \
           -X POST \
-          -d '{"username": "Build Bot", "content": "❌ **Deploy falhou!**\nAmbiente: `Production`\nTag: `${{ github.ref_name }}`"}' \
+          -d '{"username": "Build Bot", "content": "❌ **Deploy falhou!**\nAmbiente: ${{ github.ref == 'refs/heads/develop' && 'Development' || 'Production' }}\nTag: `${{ github.ref_name }}`"}' \
           ${{ vars.DISCORD_WEBHOOK_URL }}
