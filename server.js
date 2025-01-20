@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const appDebug = (process.env.APP_DEBUG === "production" || process.env.APP_DEBUG === 'development');
+const production = (process.env.APP_DEBUG === "production" || process.env.APP_DEBUG === 'development');
 const appName = process.env.APP_NAME;
 const appVersion = process.env.APP_VERSION;
 const appConfig = process.env.APP_CONFIG;
@@ -11,7 +11,7 @@ const dir = "src/environments";
 const prodFile = production ? "environment.prod.ts" : "environment.ts";
 
 const formattedContent = `export const environment = {
-  production: ${appDebug},
+  production: ${production},
   name: "${appName}",
   version: "${appVersion}",
   appConfig: ${appConfig},
