@@ -1,24 +1,21 @@
 const fs = require('fs');
 const path = require('path');
 
-const {
-  APP_DEBUG,
-  APP_NAME,
-  APP_VERSION,
-  APP_CONFIG,
-  FIREBASE_CONFIG
-} = process.env;
+const appDebug = (process.env.APP_DEBUG === "production" || process.env.APP_DEBUG === 'development');
+const appName = process.env.APP_NAME;
+const appVersion = process.env.APP_VERSION;
+const appConfig = process.env.APP_CONFIG;
+const firebaseConfig = process.env.FIREBASE_CONFIG;
 
-const production = (APP_DEBUG === "production" || APP_DEBUG === 'development');
 const dir = "src/environments";
 const prodFile = production ? "environment.prod.ts" : "environment.ts";
 
 const formattedContent = `export const environment = {
-  production: ${production},
-  name: "${APP_NAME}",
-  version: "${APP_VERSION}",
-  appConfig: ${APP_CONFIG},
-  firebaseConfig: ${FIREBASE_CONFIG},
+  production: ${appDebug},
+  name: "${appName}",
+  version: "${appVersion}",
+  appConfig: ${appConfig},
+  firebaseConfig: ${firebaseConfig},
 };`;
 
 fs.access(dir, fs.constants.F_OK, (err) => {
