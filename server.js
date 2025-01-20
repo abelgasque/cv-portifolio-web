@@ -11,7 +11,7 @@ const {
   FIREBASE_CONFIG
 } = process.env;
 
-const production = (APP_DEBUG === "production");
+const production = (APP_DEBUG === "production" || APP_DEBUG === 'development');
 const dir = "src/environments";
 const prodFile = production ? "environment.prod.ts" : "environment.ts";
 
