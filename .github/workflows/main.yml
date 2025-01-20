@@ -19,17 +19,25 @@ jobs:
           -d '{"username": "Github Bot", "content": "🚀 **Deploy iniciado!**\nAmbiente: ${{ github.ref == 'refs/heads/main' && 'Development' || 'Production' }}\nTag: `${{ github.ref_name }}`"}' \
           ${{ secrets.DISCORD_WEBHOOK_URL }}
     
-    - name: Setup nodejs and .env
+    - name: Setup node
       uses: actions/checkout@v2
     - uses: actions/setup-node@v2
       with:
         node-version: '18.x'
+
+    - name: Create .env file
+      run: |
+        echo "APP_NAME=${{ env.APP_NAME }}" >> .env
+        echo "APP_VERSION=${{ env.APP_VERSION }}" >> .env
+        echo "APP_CONFIG=${{ env.APP_CONFIG }}" >> .env
+        echo "FIREBASE_CONFIG=${{ env.FIREBASE_CONFIG }}" >> .env
+        echo "APP_DEBUG=${{ env.APP_DEBUG }}" >> .env
       env:
+        APP_NAME: ${{ github.repository }}
+        APP_VERSION: ${{ github.ref_name }}
+        APP_CONFIG: ${{ vars.APP_CONFIG }}
+        FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}
         APP_DEBUG: ${{ github.ref_name == 'main' && 'development' || 'production' }}
-        APP_NAME: '${{ github.repository }}'
-        APP_VERSION: '${{ github.ref_name }}'
-        APP_CONFIG: '${{ vars.APP_CONFIG }}'
-        FIREBASE_CONFIG: '${{ secrets.FIREBASE_CONFIG }}'
 
     - name: Install nodejs and firebase tools
       run: npm install --force && npm install -g firebase-tools 
