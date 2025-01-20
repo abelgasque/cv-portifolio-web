@@ -26,7 +26,7 @@ jobs:
         node-version: '18.x'
     
     - name: Prebuild Angular App
-      run: node serve.js 
+      run: node server.js 
       env:
         APP_NAME: ${{ github.repository }}
         APP_VERSION: ${{ github.ref_name }} 
