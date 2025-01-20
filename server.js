@@ -8,7 +8,8 @@ const appConfig = process.env.APP_CONFIG;
 const firebaseConfig = process.env.FIREBASE_CONFIG;
 
 const dir = "src/environments";
-const prodFile = production ? "environment.prod.ts" : "environment.ts";
+const devFile = "environment.ts";
+const prodFile = "environment.prod.ts";
 
 const formattedContent = `export const environment = {
   production: ${production},
@@ -25,6 +26,7 @@ fs.access(dir, fs.constants.F_OK, (err) => {
   
   try {
     fs.writeFileSync(path.join(dir, prodFile), formattedContent);
+    fs.writeFileSync(path.join(dir, devFile), formattedContent);
     console.log(`Arquivo ${prodFile} criado com sucesso!`, formattedContent);
   } catch (error) {
     console.error("Erro ao escrever o arquivo:", error);
