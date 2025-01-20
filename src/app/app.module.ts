@@ -5,6 +5,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import localePt from '@angular/common/locales/pt';
 import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
+import { Router, NavigationEnd } from '@angular/router';
 
 import { environment } from 'src/environments/environment';
 import { AppRoutingModule } from './app-routing.module';
@@ -32,4 +33,36 @@ registerLocaleData(localePt);
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  constructor(router: Router) {
+    // Verifica se o measurementId está configurado
+    if (environment.firebaseConfig.measurementId) {
+      // Inicializa o Google Analytics
+      const gtagScript = document.createElement('script');
+      gtagScript.async = true;
+      gtagScript.src = `https://www.googletagmanager.com/gtag/js?id=${environment.firebaseConfig.measurementId}`;
+      document.head.appendChild(gtagScript);
+
+      window.dataLayer = window.dataLayer || [];
+      
+      // Substituindo a declaração da função por uma expressão de função
+      const gtag = function (...args: any[]) {
+        window.dataLayer.push(args);
+      };
+
+      gtag('js', new Date());
+      gtag('config', environment.firebaseConfig.measurementId);
+
+      // Rastreia navegação entre páginas
+      router.events.subscribe((event) => {
+        if (event instanceof NavigationEnd) {
+          gtag('config', environment.firebaseConfig.measurementId, {
+            page_path: event.urlAfterRedirects,
+          });
+        }
+      });
+    } else {
+      console.warn('Google Analytics measurementId não configurado.');
+    }
+  }
+}
