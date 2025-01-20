@@ -1,20 +1,26 @@
+require('dotenv').config();
+
 const fs = require('fs');
 const path = require('path');
 
-const dir = "src/environments";
-const prodFile = "environment.prod.ts";
+const {
+  APP_DEBUG,
+  APP_NAME,
+  APP_VERSION,
+  APP_CONFIG,
+  FIREBASE_CONFIG
+} = process.env;
 
-const appName = process.env.APP_NAME;
-const appVersion = process.env.APP_VERSION;
-const appConfig = JSON.parse(process.env.APP_CONFIG);
-const firebaseConfig = JSON.parse(process.env.FIREBASE_CONFIG);
+const production = (APP_DEBUG === "production") ? true : false;
+const dir = "src/environments";
+const prodFile = (production) ? "environment.prod.ts" : "environment.ts";
 
 const formattedContent = `export const environment = {
-  production: true,
-  name: "${appName}",
-  version: "${appVersion}",
-  appConfig: ${JSON.stringify(appConfig, null)},
-  firebaseConfig: ${JSON.stringify(firebaseConfig, null)},
+  production: ${production},
+  name: "${APP_NAME}",
+  version: "${APP_VERSION}",
+  appConfig: ${APP_CONFIG},
+  firebaseConfig: ${FIREBASE_CONFIG},
 };`;
 
 fs.access(dir, fs.constants.F_OK, (err) => {

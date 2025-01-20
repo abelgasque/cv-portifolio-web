@@ -4,6 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "prebuild": "node server.js",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
@@ -24,6 +25,7 @@
     "@ngu/carousel": "^5.0.0",
     "angular-responsive-carousel": "^2.1.2",
     "bootstrap": "^4.6.0",
+    "dotenv": "^16.4.7",
     "firebase": "^11.1.0",
     "hammerjs": "^2.0.8",
     "ng-animate": "^1.0.0",

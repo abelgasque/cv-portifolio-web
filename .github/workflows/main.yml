@@ -3,20 +3,20 @@ name: Deploy to Firebase
 on:
   push:
     branches:
-      - develop
+      - main
     tags:
       - 'v*'
 jobs:
   firebase-deploy:
     runs-on: ubuntu-latest
-    environment: ${{ github.ref == 'refs/heads/develop' && 'development' || 'production' }}
+    environment: ${{ github.ref == 'refs/heads/main' && 'development' || 'production' }}
 
     steps:
     - name: Notify Discord (Build Started)
       run: |
         curl -H "Content-Type: application/json" \
           -X POST \
-          -d '{"username": "Github Bot", "content": "🚀 **Deploy iniciado!**\nAmbiente: ${{ github.ref == 'refs/heads/develop' && 'Development' || 'Production' }}\nTag: `${{ github.ref_name }}`"}' \
+          -d '{"username": "Github Bot", "content": "🚀 **Deploy iniciado!**\nAmbiente: ${{ github.ref == 'refs/heads/main' && 'Development' || 'Production' }}\nTag: `${{ github.ref_name }}`"}' \
           ${{ secrets.DISCORD_WEBHOOK_URL }}
     
     - name: Setup nodejs and create env file
@@ -24,8 +24,8 @@ jobs:
     - uses: actions/setup-node@v2
       with:
         node-version: '18.x'
-    - run: node server.js
       env:
+        APP_DEBUG: ${{ github.ref == 'refs/heads/main' && 'development' || 'production' }}
         APP_NAME: '${{ github.repository }}'
         APP_VERSION: '${{ github.ref_name }}'
         APP_CONFIG: '${{ vars.APP_CONFIG }}'
@@ -49,7 +49,7 @@ jobs:
       run: |
         curl -H "Content-Type: application/json" \
           -X POST \
-          -d '{"username": "Github Bot", "content": "✅ **Deploy concluído com sucesso!**\nAmbiente: ${{ github.ref == 'refs/heads/develop' && 'Development' || 'Production' }}\nTag: `${{ github.ref_name }}`"}' \
+          -d '{"username": "Github Bot", "content": "✅ **Deploy concluído com sucesso!**\nAmbiente: ${{ github.ref == 'refs/heads/main' && 'Development' || 'Production' }}\nTag: `${{ github.ref_name }}`"}' \
           ${{ secrets.DISCORD_WEBHOOK_URL }}
 
     - name: Notify Discord (Failure)
@@ -57,5 +57,5 @@ jobs:
       run: |
         curl -H "Content-Type: application/json" \
           -X POST \
-          -d '{"username": "Github Bot", "content": "❌ **Deploy falhou!**\nAmbiente: ${{ github.ref == 'refs/heads/develop' && 'Development' || 'Production' }}\nTag: `${{ github.ref_name }}`"}' \
+          -d '{"username": "Github Bot", "content": "❌ **Deploy falhou!**\nAmbiente: ${{ github.ref == 'refs/heads/main' && 'Development' || 'Production' }}\nTag: `${{ github.ref_name }}`"}' \
           ${{ secrets.DISCORD_WEBHOOK_URL }}

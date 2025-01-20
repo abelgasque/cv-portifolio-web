@@ -4,6 +4,7 @@
 /dist
 /tmp
 /out-tsc
+/src/environments/environment*.ts
 # Only exists if Bazel was run
 /bazel-out
 
@@ -11,6 +12,7 @@
 /node_modules
 package-lock.json
 /.firebase
+.env
 
 # profiling files
 chrome-profiler-events*.json
