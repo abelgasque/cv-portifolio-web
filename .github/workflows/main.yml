@@ -28,8 +28,8 @@ jobs:
           -d '{"username": "Build Bot", "content": "🚀 **Deploy iniciado!**\nAmbiente: ${{ github.ref == 'refs/heads/develop' && 'Development' || 'Production' }}\nTag: `${{ github.ref_name }}`"}' \
           ${{ vars.DISCORD_WEBHOOK_URL }}
 
-    - name: Build Angular App
-      run: npm run build
+    - name: Install nodejs and build Angular App
+      run: npm install --force && npm run build
 
     - name: Deploy to Firebase Hosting
       run: |
