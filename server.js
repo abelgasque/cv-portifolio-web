@@ -4,18 +4,19 @@ const path = require('path');
 const dir = "src/environments";
 const prodFile = "environment.prod.ts";
 
-const content = `${process.env.ENV_APP}`;
+const content = JSON.parse(process.env.ENV_APP);
+const formattedContent = `export const environment = ${JSON.stringify(content, null, 2)};`;
 
-if (!fs.existsSync(dir)) {
-    console.log(`Diretório ${dir} não existe. Criando agora...`);
+fs.access(dir, fs.constants.F_OK, (err) => {
+  if (err) {
+    console.log("src doesn't exist, creating now", process.cwd());
     fs.mkdirSync(dir, { recursive: true });
   }
-  
   try {
-    fs.writeFileSync(path.join(dir, prodFile), content, { encoding: 'utf8' });
-    console.log(`Arquivo ${prodFile} criado ou sobrescrito com sucesso.`);
-    console.log("Conteúdo gerado:\n", content);
+    fs.writeFileSync(path.join(dir, prodFile), formattedContent);
+    console.log(`Successfully created ${prodFile}`);
   } catch (error) {
-    console.error(`Erro ao escrever no arquivo ${prodFile}:`, error);
+    console.error(error);
     process.exit(1);
   }
+});
