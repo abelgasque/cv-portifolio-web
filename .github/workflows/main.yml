@@ -16,8 +16,8 @@ jobs:
       run: |
         curl -H "Content-Type: application/json" \
           -X POST \
-          -d '{"username": "Build Bot", "content": "🚀 **Deploy iniciado!**\nAmbiente: ${{ github.ref == 'refs/heads/develop' && 'Development' || 'Production' }}\nTag: `${{ github.ref_name }}`"}' \
-          ${{ vars.DISCORD_WEBHOOK_URL }}
+          -d '{"username": "Github Bot", "content": "🚀 **Deploy iniciado!**\nAmbiente: ${{ github.ref == 'refs/heads/develop' && 'Development' || 'Production' }}\nTag: `${{ github.ref_name }}`"}' \
+          ${{ secrets.DISCORD_WEBHOOK_URL }}
     
     - name: Setup nodejs and create env file
       uses: actions/checkout@v2
@@ -26,7 +26,10 @@ jobs:
         node-version: '18.x'
     - run: node server.js
       env:
-        ENV_APP: '${{ secrets.ENV_APP }}'
+        APP_NAME: '${{ github.repository }}'
+        APP_VERSION: '${{ github.base_ref }}'
+        APP_CONFIG: '${{ vars.APP_CONFIG }}'
+        FIREBASE_CONFIG: '${{ secrets.FIREBASE_CONFIG }}'
 
     - name: Install nodejs and firebase tools
       run: npm install --force && npm install -g firebase-tools 
@@ -36,7 +39,7 @@ jobs:
 
     - name: Deploy to Firebase Hosting
       run: |
-        firebase deploy --only hosting --project="${{ vars.FIREBASE_PROJECT_ID }}" --token="${{ secrets.FIREBASE_TOKEN }}"
+        firebase deploy --only hosting --project="${{ secrets.FIREBASE_PROJECT_ID }}" --token="${{ secrets.FIREBASE_TOKEN }}"
       env:
         GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_JSON }}
 
@@ -46,13 +49,13 @@ jobs:
       run: |
         curl -H "Content-Type: application/json" \
           -X POST \
-          -d '{"username": "Build Bot", "content": "✅ **Deploy concluído com sucesso!**\nAmbiente: ${{ github.ref == 'refs/heads/develop' && 'Development' || 'Production' }}\nTag: `${{ github.ref_name }}`"}' \
-          ${{ vars.DISCORD_WEBHOOK_URL }}
+          -d '{"username": "Github Bot", "content": "✅ **Deploy concluído com sucesso!**\nAmbiente: ${{ github.ref == 'refs/heads/develop' && 'Development' || 'Production' }}\nTag: `${{ github.ref_name }}`"}' \
+          ${{ secrets.DISCORD_WEBHOOK_URL }}
 
     - name: Notify Discord (Failure)
       if: failure()
       run: |
         curl -H "Content-Type: application/json" \
           -X POST \
-          -d '{"username": "Build Bot", "content": "❌ **Deploy falhou!**\nAmbiente: ${{ github.ref == 'refs/heads/develop' && 'Development' || 'Production' }}\nTag: `${{ github.ref_name }}`"}' \
-          ${{ vars.DISCORD_WEBHOOK_URL }}
+          -d '{"username": "Github Bot", "content": "❌ **Deploy falhou!**\nAmbiente: ${{ github.ref == 'refs/heads/develop' && 'Development' || 'Production' }}\nTag: `${{ github.ref_name }}`"}' \
+          ${{ secrets.DISCORD_WEBHOOK_URL }}

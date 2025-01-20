@@ -7,8 +7,8 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./about.component.scss']
 })
 export class AboutComponent implements OnInit {
-  avatarImg = environment.avatarImg;
-  cvImg = environment.cvImg;
+  avatarImg = environment.appConfig.avatarImg;
+  cvImg = environment.appConfig.cvImg;
 
   constructor() {}
 
