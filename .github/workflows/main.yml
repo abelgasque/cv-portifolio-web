@@ -24,14 +24,6 @@ jobs:
     - uses: actions/setup-node@v2
       with:
         node-version: '18.x'
-
-    - name: Create .env file
-      run: |
-        echo "APP_NAME=${{ env.APP_NAME }}" >> .env
-        echo "APP_VERSION=${{ env.APP_VERSION }}" >> .env
-        echo "APP_CONFIG=${{ env.APP_CONFIG }}" >> .env
-        echo "FIREBASE_CONFIG=${{ env.FIREBASE_CONFIG }}" >> .env
-        echo "APP_DEBUG=${{ env.APP_DEBUG }}" >> .env
       env:
         APP_NAME: ${{ github.repository }}
         APP_VERSION: ${{ github.ref_name }}
