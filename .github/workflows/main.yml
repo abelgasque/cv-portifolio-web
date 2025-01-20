@@ -34,8 +34,11 @@ jobs:
     - name: Install nodejs and firebase tools
       run: npm install --force && npm install -g firebase-tools 
 
+    - name: Prebuild Angular App
+      run: npm run prebuild 
+    
     - name: Build Angular App
-      run: npm run prebuild && npm run build -- --configuration=production
+      run: npm run build -- --configuration=production
 
     - name: Deploy to Firebase Hosting
       run: |
