@@ -4,8 +4,8 @@ const path = require('path');
 const dir = "src/environments";
 const prodFile = "environment.prod.ts";
 
-const appName = JSON.parse(process.env.APP_NAME);
-const appVersion = JSON.parse(process.env.APP_VERSION);
+const appName = process.env.APP_NAME;
+const appVersion = process.env.APP_VERSION;
 const appConfig = JSON.parse(process.env.APP_CONFIG);
 const firebaseConfig = JSON.parse(process.env.FIREBASE_CONFIG);
 
