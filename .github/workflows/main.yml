@@ -12,6 +12,13 @@ jobs:
     environment: ${{ github.ref == 'refs/heads/develop' && 'development' || 'production' }}
 
     steps:
+    - name: Notify Discord (Build Started)
+      run: |
+        curl -H "Content-Type: application/json" \
+          -X POST \
+          -d '{"username": "Build Bot", "content": "🚀 **Deploy iniciado!**\nAmbiente: ${{ github.ref == 'refs/heads/develop' && 'Development' || 'Production' }}\nTag: `${{ github.ref_name }}`"}' \
+          ${{ vars.DISCORD_WEBHOOK_URL }}
+    
     - name: Setup nodejs and create env file
       uses: actions/checkout@v2
     - uses: actions/setup-node@v2
@@ -21,18 +28,11 @@ jobs:
       env:
         ENV_APP: '${{ secrets.ENV_APP }}'
 
-    - name: Notify Discord (Build Started)
-      run: |
-        curl -H "Content-Type: application/json" \
-          -X POST \
-          -d '{"username": "Build Bot", "content": "🚀 **Deploy iniciado!**\nAmbiente: ${{ github.ref == 'refs/heads/develop' && 'Development' || 'Production' }}\nTag: `${{ github.ref_name }}`"}' \
-          ${{ vars.DISCORD_WEBHOOK_URL }}
-
     - name: Install nodejs and firebase tools
       run: npm install --force && npm install -g firebase-tools 
 
     - name: Build Angular App
-      run: npm run build -- --configuration≈production
+      run: npm run build -- --configuration=production
 
     - name: Deploy to Firebase Hosting
       run: |
