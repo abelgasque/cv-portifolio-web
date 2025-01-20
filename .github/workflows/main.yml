@@ -27,7 +27,7 @@ jobs:
     - run: node server.js
       env:
         APP_NAME: '${{ github.repository }}'
-        APP_VERSION: '${{ github.base_ref }}'
+        APP_VERSION: '${{ github.ref_name }}'
         APP_CONFIG: '${{ vars.APP_CONFIG }}'
         FIREBASE_CONFIG: '${{ secrets.FIREBASE_CONFIG }}'
 

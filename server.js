@@ -11,10 +11,10 @@ const firebaseConfig = JSON.parse(process.env.FIREBASE_CONFIG);
 
 const formattedContent = `export const environment = {
   production: true,
-  name: ${appName},
-  version: ${appVersion},
-  appConfig: ${JSON.stringify(appConfig, null, 2)},
-  firebaseConfig: ${JSON.stringify(firebaseConfig, null, 2)},
+  name: "${appName}",
+  version: "${appVersion}",
+  appConfig: ${JSON.stringify(appConfig, null)},
+  firebaseConfig: ${JSON.stringify(firebaseConfig, null)},
 };`;
 
 fs.access(dir, fs.constants.F_OK, (err) => {
