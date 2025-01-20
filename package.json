@@ -1,6 +1,6 @@
 {
-  "name": "cv-abelgasque",
-  "version": "v1.0.16",
+  "name": "app-debug",
+  "version": "debug",
   "scripts": {
     "ng": "ng",
     "start": "node -e \"require('dotenv').config(); require('./server.js');\" && ng serve",
