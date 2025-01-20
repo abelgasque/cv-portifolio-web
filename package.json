@@ -1,10 +1,10 @@
 {
-  "name": "app-debug",
+  "name": "cv-abelgasque",
   "version": "debug",
   "scripts": {
     "ng": "ng",
-    "start": "node -e \"require('dotenv').config(); require('./server.js');\" && ng serve",
-    "prebuild": "node server.js",
+    "start": "node -e \"require('dotenv').config(); require('./src/prebuild.js');\" && ng serve",
+    "prebuild": "node src/prebuild.js",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
