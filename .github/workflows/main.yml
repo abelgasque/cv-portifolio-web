@@ -24,21 +24,18 @@ jobs:
     - uses: actions/setup-node@v2
       with: 
         node-version: '18.x'
+      
+    - name: Install nodejs and firebase tools
+      run: npm install --force && npm install -g firebase-tools
     
-    - name: Prebuild Angular App
-      run: node server.js 
+    - name: Build Angular App
+      run: npm run prebuild && npm run build -- --configuration=production
       env:
         APP_NAME: ${{ github.repository }}
         APP_VERSION: ${{ github.ref_name }} 
         APP_CONFIG: ${{ vars.APP_CONFIG }}
         FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}
         APP_DEBUG: ${{ github.ref_name == 'main' && 'development' || 'production' }}
-
-    - name: Install nodejs and firebase tools
-      run: npm install --force && npm install -g firebase-tools
-    
-    - name: Build Angular App
-      run: npm run build -- --configuration=production
 
     - name: Deploy to Firebase Hosting
       run: |
