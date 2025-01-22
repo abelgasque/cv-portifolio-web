@@ -1,4 +1,4 @@
-name: Deploy to AWS S3
+name: Deploy to AWS
 
 on:
   push:
@@ -17,7 +17,7 @@ jobs:
       run: |
         curl -H "Content-Type: application/json" \
           -X POST \
-          -d '{"username": "AWS Bot", "content": "🚀 **Deploy iniciado na AWS S3!**\nRepositório: `${{ github.repository }}`\nAmbiente: Produção\nTag: `${{ github.ref_name }}`"}' \
+          -d '{"username": "AWS Bot", "content": "🚀 **Deploy iniciado na AWS!**\nRepositório: `${{ github.repository }}`\nAmbiente: Produção\nTag: `${{ github.ref_name }}`"}' \
           ${{ secrets.DISCORD_WEBHOOK_URL }}
 
     - name: Checkout Code
@@ -50,17 +50,22 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ${{ secrets.AWS_REGION }}
 
-    - name: Deploy to S3
+    # - name: Deploy to S3
+    #   run: |
+    #     aws s3 sync ./dist s3://${{ secrets.AWS_S3_BUCKET_NAME }} --delete
+    #     aws s3 website s3://${{ secrets.AWS_S3_BUCKET_NAME }} --index-document index.html --error-document index.html
+
+    - name: Deploy to Amplify
       run: |
-        aws s3 sync ./dist s3://${{ secrets.AWS_S3_BUCKET_NAME }} --delete
-        aws s3 website s3://${{ secrets.AWS_S3_BUCKET_NAME }} --index-document index.html --error-document index.html
+        amplify add hosting
+        amplify publish --yes
 
     - name: Notify Discord (Success)
       if: success()
       run: |
         curl -H "Content-Type: application/json" \
           -X POST \
-          -d '{"username": "AWS Bot", "content": "✅ **Deploy concluído com sucesso na AWS S3!**\nRepositório: `${{ github.repository }}`\nAmbiente: Produção\nTag: `${{ github.ref_name }}`"}' \
+          -d '{"username": "AWS Bot", "content": "✅ **Deploy concluído com sucesso na AWS!**\nRepositório: `${{ github.repository }}`\nAmbiente: Produção\nTag: `${{ github.ref_name }}`"}' \
           ${{ secrets.DISCORD_WEBHOOK_URL }}
 
     - name: Notify Discord (Failure)
@@ -68,5 +73,5 @@ jobs:
       run: |
         curl -H "Content-Type: application/json" \
           -X POST \
-          -d '{"username": "AWS Bot", "content": "❌ **Deploy falhou na AWS S3!**\nRepositório: `${{ github.repository }}`\nAmbiente: Produção\nTag: `${{ github.ref_name }}`"}' \
+          -d '{"username": "AWS Bot", "content": "❌ **Deploy falhou na AWS!**\nRepositório: `${{ github.repository }}`\nAmbiente: Produção\nTag: `${{ github.ref_name }}`"}' \
           ${{ secrets.DISCORD_WEBHOOK_URL }}
