@@ -35,7 +35,8 @@ jobs:
         APP_DEBUG: development
         APP_NAME: ${{ github.repository }}
         APP_VERSION: ${{ github.ref_name }} 
-        APP_CONFIG: ${{ vars.APP_CONFIG }}
+        APP_AVATAR_IMG: ${{ secrets.APP_AVATAR_IMG }}
+        APP_CV_FILE: ${{ secrets.APP_CV_FILE }}
         FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}
     
     - name: Build Angular App
