@@ -1,0 +1,74 @@
+name: Deploy to AWS S3
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - 'v*'
+
+jobs:
+  aws-deploy:
+    runs-on: ubuntu-latest
+    environment: ${{ github.ref == 'refs/heads/main' && 'development' || 'production' }}
+
+    steps:
+    # Notificação inicial no Discord
+    - name: Notify Discord (Build Started)
+      run: |
+        curl -H "Content-Type: application/json" \
+          -X POST \
+          -d '{"username": "AWS Bot", "content": "🚀 **Deploy iniciado na AWS S3!**\nRepositório: `${{ github.repository }}`\nAmbiente: ${{ github.ref == 'refs/heads/main' && 'Development' || 'Production' }}\nTag: `${{ github.ref_name }}`"}' \
+          ${{ secrets.DISCORD_WEBHOOK_URL }}
+
+    # Configuração inicial
+    - name: Setup node and checkout repository
+      uses: actions/checkout@v2
+    - uses: actions/setup-node@v2
+      with:
+        node-version: '18.x'
+
+    # Instalação de dependências
+    - name: Install dependencies
+      run: npm install --force
+
+    # Build do app Angular
+    - name: Build Angular App
+      run: npm run build -- --configuration=production
+      env:
+        APP_DEBUG: ${{ github.ref_name == 'main' && 'development' || 'production' }}
+        APP_NAME: ${{ github.repository }}
+        APP_VERSION: ${{ github.ref_name }} 
+        APP_CONFIG: ${{ vars.APP_CONFIG }}
+        FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}
+    
+    # Configuração do AWS CLI
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v2
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ secrets.AWS_REGION }}
+
+    # Upload para o S3
+    - name: Deploy to S3
+      run: |
+        aws s3 sync ./dist/${{ github.repository }} s3://${{ secrets.S3_BUCKET_NAME }} --delete
+        aws s3 website s3://${{ secrets.S3_BUCKET_NAME }} --index-document index.html --error-document index.html
+
+    # Notificação de sucesso ou falha no Discord
+    - name: Notify Discord (Success)
+      if: success()
+      run: |
+        curl -H "Content-Type: application/json" \
+          -X POST \
+          -d '{"username": "AWS Bot", "content": "✅ **Deploy concluído com sucesso na AWS S3!**\nRepositório: `${{ github.repository }}`\nAmbiente: ${{ github.ref == 'refs/heads/main' && 'Development' || 'Production' }}\nTag: `${{ github.ref_name }}`"}' \
+          ${{ secrets.DISCORD_WEBHOOK_URL }}
+
+    - name: Notify Discord (Failure)
+      if: failure()
+      run: |
+        curl -H "Content-Type: application/json" \
+          -X POST \
+          -d '{"username": "AWS Bot", "content": "❌ **Deploy falhou na AWS S3!**\nRepositório: `${{ github.repository }}`\nAmbiente: ${{ github.ref == 'refs/heads/main' && 'Development' || 'Production' }}\nTag: `${{ github.ref_name }}`"}' \
+          ${{ secrets.DISCORD_WEBHOOK_URL }}
