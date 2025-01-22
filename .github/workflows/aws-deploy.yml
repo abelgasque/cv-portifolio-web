@@ -37,8 +37,8 @@ jobs:
         APP_DEBUG: production
         APP_NAME: ${{ github.repository }}
         APP_VERSION: ${{ github.ref_name }} 
-        APP_AVATAR_IMG: ${{ vars.APP_AVATAR_IMG }}
-        APP_CV_FILE: ${{ vars.APP_CV_FILE }}
+        APP_AVATAR_IMG: ${{ secrets.APP_AVATAR_IMG }}
+        APP_CV_FILE: ${{ secrets.APP_CV_FILE }}
   
     - name: Build Angular App
       run: npm run build -- --configuration=production
@@ -52,8 +52,8 @@ jobs:
 
     - name: Deploy to S3
       run: |
-        aws s3 sync ./dist/${{ github.repository }} s3://${{ secrets.S3_BUCKET_NAME }} --delete
-        aws s3 website s3://${{ secrets.S3_BUCKET_NAME }} --index-document index.html --error-document index.html
+        aws s3 sync ./dist/${{ github.repository }} s3://${{ secrets.AWS_S3_BUCKET_NAME }} --delete
+        aws s3 website s3://${{ secrets.AWS_S3_BUCKET_NAME }} --index-document index.html --error-document index.html
 
     - name: Notify Discord (Success)
       if: success()
