@@ -3,10 +3,9 @@
   "version": "1.0.16",
   "scripts": {
     "ng": "ng",
-    "start": "npm run build-local && ng serve",
+    "start": "npm run build-prod  && ng serve",
     "build": "ng build",
     "build-prod": "node src/assets/scripts/build-env.prod.js",
-    "build-local": "node src/assets/scripts/build-env.local.js",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"

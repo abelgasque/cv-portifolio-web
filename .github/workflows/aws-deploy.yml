@@ -26,7 +26,7 @@ jobs:
     - name: Setup Node.js
       uses: actions/setup-node@v2
       with:
-        node-version: '18.x'
+         node-version: '18.x'
 
     - name: Install dependencies
       run: npm install --force
@@ -37,8 +37,8 @@ jobs:
         APP_DEBUG: production
         APP_NAME: ${{ github.repository }}
         APP_VERSION: ${{ github.ref_name }} 
-        APP_CONFIG: ${{ vars.APP_CONFIG }}
-        FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}
+        APP_AVATAR_IMG: ${{ vars.APP_AVATAR_IMG }}
+        APP_CV_FILE: ${{ vars.APP_CV_FILE }}
   
     - name: Build Angular App
       run: npm run build -- --configuration=production
