@@ -57,7 +57,7 @@ jobs:
 
     - name: Deploy to Amplify
       run: |
-        amplify add hosting
+        amplify pull --appId $${{ secrets.AWS_AMPLIFY_ID }} --envName dev --yes
         amplify publish --yes
 
     - name: Notify Discord (Success)
