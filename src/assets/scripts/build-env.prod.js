@@ -1,55 +1,53 @@
 require('dotenv').config();
 const fs = require('fs');
-
-const packageJson = require('../../../package.json');
-packageJson.name = process.env.APP_NAME || packageJson.name;
-packageJson.version = process.env.APP_VERSION || packageJson.version;
-
-fs.access(dir, fs.constants.F_OK, (err) => {
-  if (err) {
-    fs.mkdirSync(dir, { recursive: true });
-  }
-  
-  try {
-    fs.writeFileSync('./package.json', JSON.stringify(packageJson, null, 2));
-    console.log(`Versão atualizada com sucesso!`);
-  } catch (error) {
-    console.error("Erro ao atualizar versão:", error);
-    process.exit(1);
-  }
-});
-
 const path = require('path');
+
+// Diretório e arquivos de saída
 const dir = "src/environments";
 const files = ["environment.ts", "environment.prod.ts"];
 
+// Atualiza o package.json com informações das variáveis de ambiente
+const packageJsonPath = path.resolve(__dirname, '../../../package.json');
+const packageJson = require(packageJsonPath);
+
+Object.assign(packageJson, {
+  name: process.env.APP_NAME || packageJson.name,
+  version: process.env.APP_VERSION || packageJson.version,
+});
+
+// Salva o package.json atualizado
+try {
+  fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2));
+  console.log("Versão atualizada no package.json com sucesso!");
+} catch (error) {
+  console.error("Erro ao atualizar package.json:", error);
+  process.exit(1);
+}
+
+// Variáveis de ambiente
 const environmentVariables = {
-  production: (!process.env.APP_DEBUG === "debug"),
+  production: process.env.APP_DEBUG !== "debug",
   name: process.env.APP_NAME,
   version: process.env.APP_VERSION,
   appConfig: {
     avatarImg: process.env.APP_AVATAR_IMG,
-    cvImg: process.env.APP_CV_FILE
+    cvImg: process.env.APP_CV_FILE,
   },
-  firebaseConfig: (process.env.APP_DEBUG === "development") ? process.env.FIREBASE_CONFIG : null,
+  firebaseConfig: process.env.APP_DEBUG === "development" ? process.env.FIREBASE_CONFIG : null,
 };
 
+// Conteúdo formatado para os arquivos de ambiente
 const formattedContent = `export const environment = ${JSON.stringify(environmentVariables, null, 2)};`;
 
-fs.mkdir(dir, { recursive: true }, (err) => {
-  if (err) {
-    console.error("Erro ao criar diretório:", err);
+// Cria diretório e arquivos
+fs.mkdirSync(dir, { recursive: true });
+files.forEach((file) => {
+  const filePath = path.join(dir, file);
+  try {
+    fs.writeFileSync(filePath, formattedContent);
+    console.log(`Arquivo ${file} criado com sucesso!`);
+  } catch (error) {
+    console.error(`Erro ao escrever o arquivo ${file}:`, error);
     process.exit(1);
   }
-
-  files.forEach((file) => {
-    const filePath = path.join(dir, file);
-    fs.writeFile(filePath, formattedContent, (err) => {
-      if (err) {
-        console.error(`Erro ao escrever o arquivo ${file}:`, err);
-        process.exit(1);
-      }
-      console.log(`Arquivo ${file} criado com sucesso!`);
-    });
-  });
 });
