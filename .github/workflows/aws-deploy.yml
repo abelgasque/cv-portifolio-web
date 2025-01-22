@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - main
-    tags:
-      - 'v*'
 
 jobs:
   aws-deploy:
@@ -29,8 +27,8 @@ jobs:
          node-version: '18.x'
 
     - name: Install dependencies
-      run: npm install --force && npm install -g @aws-amplify/cli
-    
+      run: npm install --force
+
     - name: Prebuild Angular App
       run: npm run build-prod
       env:
@@ -50,15 +48,11 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ${{ secrets.AWS_REGION }}
 
-    # - name: Deploy to S3
-    #   run: |
-    #     aws s3 sync ./dist s3://${{ secrets.AWS_S3_BUCKET_NAME }} --delete
-    #     aws s3 website s3://${{ secrets.AWS_S3_BUCKET_NAME }} --index-document index.html --error-document index.html
-
-    - name: Deploy to Amplify
+    - name: Deploy to S3
       run: |
-        amplify pull --appId $${{ secrets.AWS_AMPLIFY_ID }} --envName dev --yes
-        amplify publish --yes
+        aws s3 sync ./dist /tmp/dist --delete
+        aws s3 sync /tmp/dist s3://${{ secrets.AWS_S3_BUCKET_NAME }} --delete
+        aws s3 website s3://${{ secrets.AWS_S3_BUCKET_NAME }} --index-document index.html --error-document index.html
 
     - name: Notify Discord (Success)
       if: success()

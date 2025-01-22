@@ -1,6 +1,6 @@
 {
   "name": "cv-abelgasque",
-  "version": "1.0.16",
+  "version": "local",
   "scripts": {
     "ng": "ng",
     "start": "npm run build-prod  && ng serve",
