@@ -29,7 +29,6 @@ const environmentVariables = {
     avatarImg: process.env.APP_AVATAR_IMG,
     cvImg: process.env.APP_CV_FILE,
   },
-  firebaseConfig: process.env.APP_DEBUG === "development" ? JSON.parse(process.env.FIREBASE_CONFIG) : null,
 };
 
 const formattedContent = `export const environment = ${JSON.stringify(environmentVariables, null, 2)};`;
