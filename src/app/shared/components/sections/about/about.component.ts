@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { PdfGeneratorService } from 'src/app/shared/services/pdf-generator.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -7,10 +8,14 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./about.component.scss']
 })
 export class AboutComponent implements OnInit {
-  avatarImg = environment.appConfig.avatarImg;
-  cvImg = environment.appConfig.cvImg;
+  avatarImg = environment.avatarImg;
 
-  constructor() {}
+  constructor(private pdfService: PdfGeneratorService) { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
+
+  generate(): void {
+    this.pdfService.generate();
+  }
 }

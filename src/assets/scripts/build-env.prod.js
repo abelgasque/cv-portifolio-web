@@ -25,10 +25,7 @@ const environmentVariables = {
   production: process.env.APP_DEBUG !== "debug",
   name: process.env.APP_NAME,
   version: process.env.APP_VERSION,
-  appConfig: {
-    avatarImg: process.env.APP_AVATAR_IMG,
-    cvImg: process.env.APP_CV_FILE,
-  },
+  avatarImg: process.env.APP_AVATAR_IMG,
 };
 
 const formattedContent = `export const environment = ${JSON.stringify(environmentVariables, null, 2)};`;

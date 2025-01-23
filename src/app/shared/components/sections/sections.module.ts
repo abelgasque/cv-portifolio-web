@@ -14,6 +14,7 @@ import { NguCarouselModule } from '@ngu/carousel';
 import { FormationComponent } from './formation/formation.component';
 import { CertificationComponent } from './certification/certification.component';
 import { LanguageComponent } from './language/language.component';
+import { PdfGeneratorService } from '../../services/pdf-generator.service';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,9 @@ import { LanguageComponent } from './language/language.component';
     IvyCarouselModule,
     NguCarouselModule,
     NgbModule
+  ],
+  providers: [
+    PdfGeneratorService
   ]
 })
 export class SectionsModule { }
