@@ -2,13 +2,15 @@ name: Deploy to AWS
 
 on:
   push:
+    branches:
+      - main
     tags:
       - 'v*'
 
 jobs:
   aws-deploy:
     runs-on: ubuntu-latest
-    environment: production
+    environment: ${{ github.ref == 'refs/heads/main' && 'development' || 'production' }}
 
     steps:
     - name: Notify Discord (Build Started)
