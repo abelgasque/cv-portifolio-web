@@ -15,10 +15,10 @@ RUN npm install --force
 COPY . .
 
 # Definir variáveis de ambiente (se necessário)
-ENV APP_DEBUG=development
-ENV APP_NAME=sample-app
-ENV APP_VERSION=1.0.0
-ENV APP_AVATAR_IMG="https://github.com/abelgasque.png"
+ENV APP_DEBUG='development'
+ENV APP_NAME='cv-abelgasque'
+ENV APP_VERSION='1.0.0'
+ENV APP_AVATAR_IMG='https://github.com/abelgasque.png'
 
 # Rodar o comando de build de pré-produção, se necessário
 RUN npm run build-prod
