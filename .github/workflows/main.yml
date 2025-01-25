@@ -8,6 +8,17 @@ on:
       - aws
 
 jobs:
+  notify-build-start:
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Notify Discord (Build Started)
+        run: |
+          curl -H "Content-Type: application/json" \
+            -X POST \
+            -d '{"username": "Bot GitHub", "content": "🚀 **Build iniciado!**\nRepositório: `${{ github.repository }}`\nAmbiente: Produção\nTag: `${{ github.ref_name }}`"}' \
+            ${{ secrets.DISCORD_WEBHOOK_URL }}
+
   build-app:
     environment: production
     runs-on: ubuntu-latest
@@ -35,6 +46,7 @@ jobs:
   
     - name: Build Angular App
       run: npm run build -- --configuration=production
+
 
   deploy-firebase:
     needs: build-app
