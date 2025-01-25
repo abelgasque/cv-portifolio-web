@@ -9,14 +9,14 @@ on:
 jobs:
   notify-deploy:
     runs-on: ubuntu-latest
-    environment: 'production'
+    environment: development
 
     steps:
     - name: Notify Discord (Deploy Started)
       run: |
         curl -H "Content-Type: application/json" \
           -X POST \
-          -d '{"username": "Bot ${{ github.ref }}", "content": "🚀 **Deploy iniciado na AWS!**\nRepositório: `${{ github.repository }}`\nAmbiente: Produção\nTag: `${{ github.ref_name }}`"}' \
+          -d '{"username": "Bot ${{ github.ref }}", "content": "🚀 **Deploy iniciado!**\nRepositório: `${{ github.repository }}`\nAmbiente: Produção\nTag: `${{ github.ref_name }}`"}' \
           ${{ secrets.DISCORD_WEBHOOK_URL }}
     
     - name: Notify Telegram (Deploy Started)
@@ -24,4 +24,4 @@ jobs:
         curl -s -X POST \
         https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage \
         -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
-        -d text="🚀 **Deploy iniciado na AWS!**\nRepositório: `${{ github.repository }}`\nAmbiente: Produção\nTag: `${{ github.ref_name }}`"
+        -d text="🚀 **Deploy iniciado!**\nRepositório: `${{ github.repository }}`\nAmbiente: Produção\nTag: `${{ github.ref_name }}`"
