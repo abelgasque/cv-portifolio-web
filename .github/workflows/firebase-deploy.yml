@@ -3,12 +3,12 @@ name: Deploy to Firebase
 on:
   push:
     branches:
-      - main
+      - 'firebase'
 
 jobs:
   firebase-deploy:
     runs-on: ubuntu-latest
-    environment: ${{ github.ref == 'refs/heads/main' && 'development' || 'production' }}
+    environment: production
 
     steps:
     - name: Checkout Code
@@ -25,7 +25,7 @@ jobs:
     - name: Prebuild Angular App
       run: npm run build-prod
       env:
-        APP_DEBUG: ${{ github.ref == 'refs/heads/main' && 'development' || 'production' }}
+        APP_DEBUG: 'production'
         APP_NAME: ${{ github.repository }}
         APP_VERSION: ${{ github.ref_name }} 
         APP_AVATAR_IMG: ${{ secrets.APP_AVATAR_IMG }}
@@ -38,18 +38,22 @@ jobs:
     - name: Deploy to Firebase Hosting
       run: firebase deploy --only hosting --token="${{ secrets.FIREBASE_TOKEN }}" --project="${{ secrets.FIREBASE_PROJECT_ID }}"
 
-    - name: Notify Discord (Success)
-      if: success()
-      run: |
-        curl -H "Content-Type: application/json" \
-          -X POST \
-          -d '{"username": "Firebase Bot", "content": "✅ **Deploy concluído com sucesso no Firebase!**\nRepositório: `${{ github.repository }}`\nAmbiente: ${{ github.ref == 'refs/heads/main' && 'Desenvolvimento' || 'Produção' }}\nTag: `${{ github.ref_name }}`"}' \
-          ${{ secrets.DISCORD_WEBHOOK_URL }}
+  notify:
+    needs: firebase-deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Notify Discord (Success)
+        if: success()
+        run: |
+          curl -H "Content-Type: application/json" \
+            -X POST \
+            -d '{"username": "Firebase Bot", "content": "✅ **Deploy concluído com sucesso no Firebase!**\nRepositório: `${{ github.repository }}`\nAmbiente: Produção\nTag: `${{ github.ref_name }}`"}' \
+            ${{ secrets.DISCORD_WEBHOOK_URL }}
 
-    - name: Notify Discord (Failure)
-      if: failure()
-      run: |
-        curl -H "Content-Type: application/json" \
-          -X POST \
-          -d '{"username": "Firebase Bot", "content": "❌ **Deploy falhou no Firebase!**\nRepositório: `${{ github.repository }}`\nAmbiente: ${{ github.ref == 'refs/heads/main' && 'Desenvolvimento' || 'Produção' }}\nTag: `${{ github.ref_name }}`"}' \
-          ${{ secrets.DISCORD_WEBHOOK_URL }}
+      - name: Notify Discord (Failure)
+        if: failure()
+        run: |
+          curl -H "Content-Type: application/json" \
+            -X POST \
+            -d '{"username": "Firebase Bot", "content": "❌ **Deploy falhou no Firebase!**\nRepositório: `${{ github.repository }}`\nAmbiente: Produção\nTag: `${{ github.ref_name }}`"}' \
+            ${{ secrets.DISCORD_WEBHOOK_URL }}
