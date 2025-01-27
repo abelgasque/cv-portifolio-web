@@ -50,8 +50,16 @@ jobs:
     - name: Install Github Pages
       run: npm i -g angular-cli-ghpages
 
+    - name: Configure Git User
+      run: |
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+    - name: Cleanup Cache
+      run: rm -rf node_modules/.cache/gh-pages/
+
     - name: Deploy Github Pages
-      run: angular-cli-ghpages --dir=dist
+      run: angular-cli-ghpages --dir=dist --no-silent --clean --repo=https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
 
   report-status:
     name: Report Build Status
