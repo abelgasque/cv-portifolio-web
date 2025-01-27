@@ -59,7 +59,7 @@ jobs:
       run: rm -rf node_modules/.cache/gh-pages/
 
     - name: Deploy Github Pages
-      run: angular-cli-ghpages --dir=dist --no-silent --clean --repo=https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
+      run: angular-cli-ghpages --dir=dist --no-silent --repo=https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
 
   report-status:
     name: Report Build Status
